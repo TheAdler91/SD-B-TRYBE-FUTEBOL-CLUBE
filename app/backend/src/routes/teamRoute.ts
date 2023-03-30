@@ -11,4 +11,7 @@ const teamController = new TeamController(teamService);
 router.get('/', (req: Request, res: Response, next: NextFunction) =>
   teamController.findAll(req, res, next));
 
+router.get('/:id', (req: Request, res: Response, next: NextFunction) =>
+  teamController.findById(req, res, next));
+
 export default router;

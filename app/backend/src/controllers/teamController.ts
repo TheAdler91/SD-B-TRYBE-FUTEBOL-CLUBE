@@ -17,4 +17,14 @@ export default class TeamController implements ITeamController {
       next(error);
     }
   }
+
+  async findById(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+    try {
+      const { id } = req.params;
+      const team = await this._teamService.findById(Number(id));
+      res.status(200).json(team);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

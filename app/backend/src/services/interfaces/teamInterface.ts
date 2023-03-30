@@ -5,4 +5,5 @@ export interface ITeams {
 
 export default interface ITeamService {
   findAll (): Promise<ITeams[]>
+  findById (id: number): Promise<ITeams>
 }
