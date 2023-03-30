@@ -1,4 +1,6 @@
 import * as express from 'express';
+import errorHandler from './middlewares/error-middleware';
+// import * as errorHandler from './middlewares/error-middleware';
 
 class App {
   public app: express.Express;
@@ -10,6 +12,7 @@ class App {
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
+    this.app.use(errorHandler);
   }
 
   private config():void {
