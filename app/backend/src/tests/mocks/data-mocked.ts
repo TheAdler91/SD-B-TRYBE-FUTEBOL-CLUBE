@@ -70,3 +70,7 @@ export const team = {
     teamName: 'Avaí/Kindermann'
 }
 
+export const errorMessage = {
+    error: 'Team not found'
+}
+

@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import { app } from '../app';
 import { Model } from 'sequelize';
 import Teams from '../database/models/TeamModel';
-import { team, teams } from './mocks/data-mocked'
+import { team, teams, errorMessage } from './mocks/data-mocked'
 
 chai.use(chaiHttp);
 
@@ -14,6 +14,7 @@ const { expect } = chai;
 
 
   describe ('GET teams route', () => {
+    afterEach(sinon.restore)
 
       it('should return all teams', async () => {
         const httpResponse = await chai.request(app).get('/teams')
@@ -29,4 +30,13 @@ const { expect } = chai;
         expect(httpResponse.body).to.deep.equal(team)
     
         })
+      
+      it('should return error', async () => {
+        sinon.stub(Model, 'findByPk').resolves()
+    
+        const httpResponse = await chai.request(app).get('/teams/50')
+    
+        expect(httpResponse.body).to.deep.equal(errorMessage)
+    
+        })  
   })
