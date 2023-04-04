@@ -18,9 +18,13 @@ export default class Token {
   }
 
   createToken(payload:IPayload): string {
-    console.log(payload);
     const { username, email, role } = payload;
     const token = this._jwt.sign({ username, email, role }, this._secret, this._options);
     return token;
+  }
+
+  verifyToken(token: string) {
+    const verify = this._jwt.verify(token, this._secret);
+    return verify;
   }
 }
