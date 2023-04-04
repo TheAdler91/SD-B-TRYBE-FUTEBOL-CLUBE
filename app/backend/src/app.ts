@@ -1,6 +1,7 @@
 import * as express from 'express';
 import errorHandler from './middlewares/error-middleware';
 import teamRoutes from './routes/teamRoute';
+import userRoutes from './routes/userRoute';
 
 class App {
   public app: express.Express;
@@ -13,6 +14,7 @@ class App {
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
     this.app.use('/teams', teamRoutes);
+    this.app.use('/login', userRoutes);
     this.app.use(errorHandler);
   }
 

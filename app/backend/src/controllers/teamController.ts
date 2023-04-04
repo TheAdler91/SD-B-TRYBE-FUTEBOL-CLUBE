@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import ITeamController from './interfaces/controllerInterface';
+import ITeamController from './interfaces/teamControllerInterface';
 import ITeamService from '../services/interfaces/teamInterface';
 
 export default class TeamController implements ITeamController {
