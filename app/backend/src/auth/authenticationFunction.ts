@@ -1,30 +1,19 @@
-import * as dotenv from 'dotenv';
-import * as jwt from 'jsonwebtoken';
-import { IPayload } from '../services/interfaces/userLogin';
+import { SignOptions, sign, verify } from 'jsonwebtoken';
+import { IPayload } from '../interfaces';
 
-dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET || 'jwt_secret';
 
-export default class Token {
-  private _jwt = jwt;
-  private _secret: jwt.Secret;
-  private _options: jwt.SignOptions;
+const jwtConfig: SignOptions = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 
-  constructor() {
-    this._secret = process.env.JWT_SECRET || 'jwtsecret';
-    this._options = {
-      algorithm: 'HS256',
-      expiresIn: '7d',
-    };
-  }
+const createToken = (user: IPayload) => sign({ user }, JWT_SECRET, jwtConfig);
 
-  createToken(payload:IPayload): string {
-    const { username, email, role } = payload;
-    const token = this._jwt.sign({ username, email, role }, this._secret, this._options);
-    return token;
-  }
+const verifyToken = (token: string) => {
+  const payload = verify(token, JWT_SECRET);
+  return payload;
+};
 
-  verifyToken(token: string) {
-    const verify = this._jwt.verify(token, this._secret);
-    return verify;
-  }
-}
+const TokenJWT = { createToken, verifyToken };
+export default TokenJWT;

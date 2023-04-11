@@ -17,4 +17,18 @@ const verifyRequiredFields = (key: keyof typeof requestRequiredFields) =>
     next();
   };
 
-export default verifyRequiredFields;
+const validationFields = (req: Request, res: Response, next: NextFunction) => {
+  const { body } = req;
+  const regex = /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+
+  if (regex.test(body.email) === false) {
+    return res.status(401).json({ message: 'Invalid email or password' });
+  }
+
+  if (body.password.length < 6) {
+    return res.status(401).json({ message: 'Invalid email or password' });
+  }
+  next();
+};
+
+export { verifyRequiredFields, validationFields };

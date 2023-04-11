@@ -1,14 +1,25 @@
 import { ModelStatic } from 'sequelize';
-import IUserService, { IUser } from './interfaces/userLogin';
+import { compare } from 'bcryptjs';
 import Users from '../database/models/UserModel';
+import TokenJWT from '../auth/authenticationFunction';
 
-export default class UserService implements IUserService {
-  constructor(private userModel:ModelStatic<Users>) {}
+export default class UserService {
+  constructor(private userModel:ModelStatic<Users>) { }
 
-  async findLogin(email: string): Promise<IUser> {
-    const login = await this.userModel.findOne({
+  async findLogin(email: string, password: string) {
+    const user = await this.userModel.findOne({
       where: { email },
     });
-    return login as IUser;
+
+    if (!user) return { status: 401, message: 'Invalid email or password' };
+
+    const passVerify = await compare(password, user.password);
+
+    if (!passVerify) return { status: 401, message: 'Invalid email or password' };
+
+    const userValues = user.get({ plain: true });
+    const token = TokenJWT.createToken(userValues);
+
+    return { status: 200, message: token };
   }
 }
