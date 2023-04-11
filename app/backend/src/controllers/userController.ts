@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-// import IUserController from './interfaces/userControllerInterface';
 import IUserService from '../services/userService';
 
 export default class UserController {
@@ -9,7 +8,8 @@ export default class UserController {
     this._userService = userController;
   }
 
-  async findLogin(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+  public async findLogin(req: Request, res: Response, next: NextFunction):
+  Promise<Response | void> {
     try {
       const { email, password } = req.body;
       const { status, message } = await this._userService.findLogin(email, password);
@@ -19,4 +19,28 @@ export default class UserController {
       next(error);
     }
   }
+
+  public getRole = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { payload } = req.body;
+
+      const { user } = payload;
+
+      const role = await this._userService.getRole(user);
+      res.status(200).json({ role });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
+
+// public getRole = async (req: IRequest, res: Response, next: NextFunction) => {
+//   try {
+//     const { id, role, username } = req.user as IPayload;
+
+//     const userRole = await this._userService.getRole({ id, role, username });
+//     res.status(200).json({ userRole });
+//   } catch (error) {
+//     next(error);
+//   }
+// };

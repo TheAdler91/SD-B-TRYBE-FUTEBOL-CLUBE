@@ -1,3 +1,8 @@
+import { Request } from 'express';
+
+export interface IRequest extends Request {
+  user?: IPayload
+}
 export interface IPayload {
   id: number,
   username: string;

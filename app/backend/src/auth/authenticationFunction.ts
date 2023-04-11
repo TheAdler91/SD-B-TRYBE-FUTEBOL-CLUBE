@@ -10,8 +10,8 @@ const jwtConfig: SignOptions = {
 
 const createToken = (user: IPayload) => sign({ user }, JWT_SECRET, jwtConfig);
 
-const verifyToken = (token: string) => {
-  const payload = verify(token, JWT_SECRET);
+const verifyToken = async (token: string) => {
+  const payload = await verify(token, JWT_SECRET);
   return payload;
 };
 
