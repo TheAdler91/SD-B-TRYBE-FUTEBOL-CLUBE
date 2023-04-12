@@ -20,6 +20,6 @@ router.patch('/:id', tokenToValidate, (req: Request, res: Response, next: NextFu
   matchController.updateMatch(req, res, next));
 
 router.post('/', tokenToValidate, (req: Request, res: Response, next: NextFunction) =>
-  matchController.updateMatch(req, res, next));
+  matchController.newMatch(req, res, next));
 
 export default router;

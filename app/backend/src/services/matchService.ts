@@ -2,7 +2,7 @@ import { ModelStatic } from 'sequelize';
 import { IAddMatch, IMatch, IUpdate } from '../interfaces';
 import Matches from '../database/models/MatchModel';
 import Teams from '../database/models/TeamModel';
-import InvalidParamError from '../error/InvalidParamError';
+import { NotFoundError } from '../error';
 
 export default class MatchService {
   constructor(
@@ -57,9 +57,11 @@ export default class MatchService {
 
   public async newMatch(addMatch: IAddMatch): Promise<IMatch> {
     const match = { ...addMatch, inProgress: true };
+
     const toCreate = await this.matchModel.create(match);
     const created = await this.matchModel.findOne({ where: { id: toCreate.dataValues.id } });
-    if (!created) throw new InvalidParamError('Not a valid Id');
+
+    if (!created) throw new NotFoundError('Return not found');
     return created;
   }
 }
