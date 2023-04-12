@@ -25,8 +25,8 @@ export default class MatchService {
   }
 
   public async getInProgress(inProgress: string):Promise<Matches[] | null> {
-    const result = await this.matchModel.findAll({
-      where: { inProgress },
+    const ongoing = await this.matchModel.findAll({
+      where: { inProgress: JSON.parse(inProgress.toLowerCase()) },
       include: [
         {
           model: this.teamModel,
@@ -37,6 +37,6 @@ export default class MatchService {
           as: 'homeTeam',
         }],
     });
-    return result;
+    return ongoing;
   }
 }
