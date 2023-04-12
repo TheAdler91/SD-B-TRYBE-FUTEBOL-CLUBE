@@ -9,22 +9,15 @@ export default class MatchController {
     this.matchService = matchService;
   }
 
-  public async getAllMatches(req: Request, res: Response, next: NextFunction) {
-    try {
-      const matches = await this.matchService.getAllMatches();
-      res.status(200).json(matches);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  public async getinProgress(req: Request, res: Response, next: NextFunction) {
+  public async getMatches(req: Request, res: Response, next: NextFunction) {
     const { inProgress } = req.query;
     try {
       if (inProgress) {
-        const result = await this.matchService.getInProgress(inProgress as string);
-        res.status(200).json(result);
+        const games = await this.matchService.getInProgress(inProgress as string);
+        res.status(200).json(games);
       }
+      const matches = await this.matchService.getAllMatches();
+      res.status(200).json(matches);
     } catch (error) {
       next(error);
     }

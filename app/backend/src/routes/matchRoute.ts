@@ -10,9 +10,6 @@ const matchService = new MatcheService(MatchModel, TeamModel);
 const matchController = new MatchController(matchService);
 
 router.get('/', (req: Request, res: Response, next: NextFunction) =>
-  matchController.getAllMatches(req, res, next));
-
-router.get('/', (req: Request, res: Response, next: NextFunction) =>
-  matchController.getinProgress(req, res, next));
+  matchController.getMatches(req, res, next));
 
 export default router;
