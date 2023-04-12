@@ -44,4 +44,16 @@ export default class MatchController {
       next(error);
     }
   }
+
+  async newMatch(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const newMatch = req.body;
+
+      const match = await this.matchService.newMatch(newMatch);
+
+      res.status(201).json(match);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

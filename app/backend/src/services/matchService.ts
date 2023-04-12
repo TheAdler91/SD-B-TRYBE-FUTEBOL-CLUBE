@@ -1,7 +1,8 @@
 import { ModelStatic } from 'sequelize';
-import { IMatch, IUpdate } from '../interfaces';
+import { IAddMatch, IMatch, IUpdate } from '../interfaces';
 import Matches from '../database/models/MatchModel';
 import Teams from '../database/models/TeamModel';
+import InvalidParamError from '../error/InvalidParamError';
 
 export default class MatchService {
   constructor(
@@ -52,5 +53,13 @@ export default class MatchService {
       { homeTeamGoals: team.homeTeamGoals, awayTeamGoals: team.awayTeamGoals },
       { where: { id } },
     );
+  }
+
+  public async newMatch(addMatch: IAddMatch): Promise<IMatch> {
+    const match = { ...addMatch, inProgress: true };
+    const toCreate = await this.matchModel.create(match);
+    const created = await this.matchModel.findOne({ where: { id: toCreate.dataValues.id } });
+    if (!created) throw new InvalidParamError('Not a valid Id');
+    return created;
   }
 }

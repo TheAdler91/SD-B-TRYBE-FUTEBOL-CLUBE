@@ -27,3 +27,10 @@ export interface IUpdate {
   homeTeamGoals: number,
   awayTeamGoals: number,
 }
+
+export interface IAddMatch {
+  homeTeamId: number,
+  awayTeamId: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
