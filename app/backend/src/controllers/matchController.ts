@@ -32,4 +32,16 @@ export default class MatchController {
       next(error);
     }
   }
+
+  public async updateMatch(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const updateGoals = req.body;
+      const { id } = req.params;
+
+      await this.matchService.updateMatch(Number(id), updateGoals);
+      res.status(200).json({ message: 'Edited' });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

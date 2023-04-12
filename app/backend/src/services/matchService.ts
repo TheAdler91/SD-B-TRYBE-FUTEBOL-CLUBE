@@ -1,5 +1,5 @@
 import { ModelStatic } from 'sequelize';
-import { IMatch } from '../interfaces';
+import { IMatch, IUpdate } from '../interfaces';
 import Matches from '../database/models/MatchModel';
 import Teams from '../database/models/TeamModel';
 
@@ -40,9 +40,16 @@ export default class MatchService {
     return ongoing;
   }
 
-  public async closeMatch(id: number) {
+  public async closeMatch(id: number):Promise<void> {
     await this.matchModel.update(
       { inProgress: false },
+      { where: { id } },
+    );
+  }
+
+  public async updateMatch(id: number, team: IUpdate):Promise<void> {
+    await this.matchModel.update(
+      { homeTeamGoals: team.homeTeamGoals, awayTeamGoals: team.awayTeamGoals },
       { where: { id } },
     );
   }
