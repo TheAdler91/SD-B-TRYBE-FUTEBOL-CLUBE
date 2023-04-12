@@ -39,4 +39,11 @@ export default class MatchService {
     });
     return ongoing;
   }
+
+  public async closeMatch(id: number) {
+    await this.matchModel.update(
+      { inProgress: false },
+      { where: { id } },
+    );
+  }
 }

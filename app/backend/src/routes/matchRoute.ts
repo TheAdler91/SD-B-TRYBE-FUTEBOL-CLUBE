@@ -3,6 +3,7 @@ import MatchController from '../controllers/matchController';
 import MatcheService from '../services/matchService';
 import MatchModel from '../database/models/MatchModel';
 import TeamModel from '../database/models/TeamModel';
+import tokenToValidate from '../middlewares/auth-token';
 
 const router = Router();
 
@@ -11,5 +12,8 @@ const matchController = new MatchController(matchService);
 
 router.get('/', (req: Request, res: Response, next: NextFunction) =>
   matchController.getMatches(req, res, next));
+
+router.patch('/:id/finish', tokenToValidate, (req: Request, res: Response, next: NextFunction) =>
+  matchController.closeMatch(req, res, next));
 
 export default router;
