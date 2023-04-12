@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import { app } from '../app';
 import { Model } from 'sequelize';
 import Teams from '../database/models/TeamModel';
-import { team, teams, errorMessage } from './mocks/data-mocked'
+import { team, teams, errorMessage } from './mocks/teams-data-mocked'
 
 chai.use(chaiHttp);
 
