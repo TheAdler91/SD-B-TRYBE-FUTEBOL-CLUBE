@@ -9,7 +9,7 @@ export default class MatchService {
     private teamModel: ModelStatic<Teams>,
   ) {}
 
-  async getAllMatches(): Promise<IMatch[]> {
+  public async getAllMatches(): Promise<IMatch[]> {
     const matches = await this.matchModel.findAll({
       include: [
         {
@@ -22,5 +22,21 @@ export default class MatchService {
         }],
     });
     return matches;
+  }
+
+  public async getInProgress(inProgress: string):Promise<Matches[] | null> {
+    const result = await this.matchModel.findAll({
+      where: { inProgress: JSON.parse(inProgress.toLowerCase()) },
+      include: [
+        {
+          model: this.teamModel,
+          as: 'awayTeam',
+        },
+        {
+          model: this.teamModel,
+          as: 'homeTeam',
+        }],
+    });
+    return result;
   }
 }
