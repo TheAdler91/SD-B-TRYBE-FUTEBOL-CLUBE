@@ -3,11 +3,13 @@ import MatchController from '../controllers/matchController';
 import MatcheService from '../services/matchService';
 import MatchModel from '../database/models/MatchModel';
 import TeamModel from '../database/models/TeamModel';
+import TeamsService from '../services/teamService';
 import tokenToValidate from '../middlewares/auth-token';
 
 const router = Router();
 
-const matchService = new MatcheService(MatchModel, TeamModel);
+const teamService = new TeamsService(TeamModel);
+const matchService = new MatcheService(MatchModel, TeamModel, teamService);
 const matchController = new MatchController(matchService);
 
 router.get('/', (req: Request, res: Response, next: NextFunction) =>

@@ -1,7 +1,7 @@
 import { ModelStatic } from 'sequelize';
 import ITeamService, { ITeams } from './interfaces/teamInterface';
 import Teams from '../database/models/TeamModel';
-import InvalidParamError from '../error/InvalidParamError';
+import { NotFoundError } from '../error';
 
 export default class TeamsService implements ITeamService {
   constructor(private teamModel:ModelStatic<Teams>) {}
@@ -13,7 +13,7 @@ export default class TeamsService implements ITeamService {
 
   async findById(id: number): Promise<ITeams> {
     const team = await this.teamModel.findByPk(id);
-    if (!team) throw new InvalidParamError('Team not found');
+    if (!team) throw new NotFoundError('There is no team with such id!');
     return team as ITeams;
   }
 }

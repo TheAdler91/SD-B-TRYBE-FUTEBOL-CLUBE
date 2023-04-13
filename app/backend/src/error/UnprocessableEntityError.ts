@@ -1,4 +1,4 @@
-export default class InvalidParamError extends Error {
+export default class UnprocessableEntityError extends Error {
   public statusCode: number;
   constructor(message: string) {
     super(message);
