@@ -71,6 +71,6 @@ export const team = {
 }
 
 export const errorMessage = {
-    error: 'Team not found'
+    error: 'There is no team with such id!'
 }
 
