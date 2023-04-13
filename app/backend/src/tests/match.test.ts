@@ -1,7 +1,6 @@
 import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
-import * as sinon from 'sinon'
 import { matchesmock, token, matchesInProgress } from './mocks/match-data-mocked';
 import { app } from '../app';
 
@@ -9,9 +8,6 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Get matches route', function () {
-    afterEach(() => {
-        sinon.restore();
-      });
 
   it('should return all matches', async function () {
 

@@ -1,12 +1,11 @@
 import { ErrorRequestHandler } from 'express';
 
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
-  if (err.statusCode) {
-    return res.status(err.statusCode).json({ error: err.message });
+  const { statusCode, message } = err;
+  if (statusCode) {
+    return res.status(statusCode).json({ message });
   }
-  console.log('aquiii', err.message);
-
-  res.status(500).json({ error: err.message });
+  res.status(500).json({ message });
 };
 
 export default errorHandler;

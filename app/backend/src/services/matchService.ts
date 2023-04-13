@@ -2,15 +2,17 @@ import { ModelStatic } from 'sequelize';
 import { IAddMatch, IMatch, IUpdate } from '../interfaces';
 import Matches from '../database/models/MatchModel';
 import Teams from '../database/models/TeamModel';
-import TeamsService from './teamService';
-import { NotFoundError, UprocessableEntityError } from '../error';
+// import TeamsService from './teamService';
+import { InvalidParamError } from '../error';
+import MatchesValidations from './validations/matchValidations';
 
 export default class MatchService {
   constructor(
     private _matchModel:ModelStatic<Matches>,
     private _teamModel: ModelStatic<Teams>,
-    private _teamService: TeamsService,
-  ) {}
+    private _validations: MatchesValidations,
+    // private _teamService: TeamsService,
+  ) { this._validations = new MatchesValidations(); }
 
   public async getAllMatches(): Promise<IMatch[]> {
     const matches = await this._matchModel.findAll({
@@ -59,20 +61,21 @@ export default class MatchService {
 
   public async newMatch(addMatch: IAddMatch): Promise<IMatch> {
     const { homeTeamId, awayTeamId } = addMatch;
-    if (homeTeamId === awayTeamId) {
-      throw new
-      UprocessableEntityError('It is not possible to create a match with two equal teams');
-    }
+    this._validations.matchValidation(homeTeamId, awayTeamId);
+    // if (homeTeamId === awayTeamId) {
+    //   throw new
+    //   UprocessableEntityError('It is not possible to create a match with two equal teams');
+    // }
 
-    await this._teamService.findById(homeTeamId);
-    await this._teamService.findById(awayTeamId);
+    // await this._teamService.findById(homeTeamId);
+    // await this._teamService.findById(awayTeamId);
 
     const match = { ...addMatch, inProgress: true };
 
     const toCreate = await this._matchModel.create(match);
     const created = await this._matchModel.findOne({ where: { id: toCreate.dataValues.id } });
 
-    if (!created) throw new NotFoundError('Return not found');
+    if (!created) throw new InvalidParamError('Return not found');
     return created;
   }
 }
