@@ -8,9 +8,9 @@ export default class LeaderoardBController {
     this._leaderboard = leaderboard;
   }
 
-  getAllHome = async (_req: Request, res: Response, next: NextFunction) => {
+  getHomeTeamTable = async (_req: Request, res: Response, next: NextFunction) => {
     try {
-      const result = await this._leaderboard.getHomeTeam();
+      const result = await this._leaderboard.getHomeTeamTable();
       return res.status(200).json(result);
     } catch (error) {
       next(error);

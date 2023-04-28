@@ -1,7 +1,7 @@
 import { ModelStatic } from 'sequelize';
 import Teams from '../database/models/TeamModel';
 import Matches from '../database/models/MatchModel';
-import LeaderBoard from '../database/models/ChartModel';
+import LeaderBoard from '../database/models/TableHomeModel';
 
 export default class LeaderboardService {
   matchModel: ModelStatic<Matches>;
@@ -15,10 +15,21 @@ export default class LeaderboardService {
     this.teamModel = teamModel;
   }
 
-  getHomeTeam = async () => {
-    const leaderboardHomeTeams = await this.teamModel.findAll();
-    const leaderboardHomeMatches = await this.matchModel.findAll();
-    const newBoard = new LeaderBoard(leaderboardHomeTeams, leaderboardHomeMatches);
-    return newBoard.createBoard();
+  getHomeTeamTable = async () => {
+    const { teamModel, matchModel } = this;
+
+    const homeTeams = await teamModel.findAll();
+    const homeMatches = await matchModel.findAll();
+
+    const newboard = new LeaderBoard(homeTeams, homeMatches);
+    const table = newboard.createBoard();
+
+    const tableSorted = table.sort((a, b) =>
+      b.totalPoints - a.totalPoints
+      || b.totalVictories - a.totalVictories
+      || b.goalsBalance - a.goalsBalance
+      || b.goalsFavor - a.goalsFavor);
+
+    return tableSorted;
   };
 }
