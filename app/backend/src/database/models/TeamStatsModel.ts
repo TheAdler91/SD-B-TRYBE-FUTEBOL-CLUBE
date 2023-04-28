@@ -2,43 +2,43 @@ import Matches from './MatchModel';
 import Teams from './TeamModel';
 
 export default class TeamStats {
-  teamName: string;
-  totalGamesPlayed: number;
+  name: string;
+  totalGames: number;
   totalPoints: number;
-  totalWins: number;
+  totalVictories: number;
   totalDraws: number;
   totalLosses: number;
-  goalsFor: number;
-  goalsAgainst: number;
-  goalDifference: number;
-  winPercentage: number;
+  goalsFavor: number;
+  goalsOwn: number;
+  goalsBalance: number;
+  efficiency: number;
   team: Teams;
   matches: Matches[];
 
   constructor(team: Teams, matches: Matches[]) {
     this.team = team;
-    this.teamName = team.teamName;
+    this.name = team.teamName;
     this.matches = matches;
-    this.totalGamesPlayed = this.getTotalGamesPlayed();
-    this.totalWins = this.getTotalWins();
+    this.totalGames = this.getTotalGames();
+    this.totalVictories = this.getTotalVictories();
     this.totalLosses = this.getTotalLosses();
     this.totalDraws = this.getTotalDraws();
-    this.totalPoints = (this.totalWins * 3) + this.totalDraws;
-    this.goalsFor = this.getGoalsFor();
-    this.goalsAgainst = this.getGoalsAgainst();
-    this.goalDifference = this.goalsFor - this.goalsAgainst;
-    this.winPercentage = (this.totalWins / this.totalGamesPlayed) * 100;
+    this.totalPoints = (this.totalVictories * 3) + this.totalDraws;
+    this.goalsFavor = this.getgoalsFavor();
+    this.goalsOwn = this.getgoalsOwn();
+    this.goalsBalance = this.goalsFavor - this.goalsOwn;
+    this.efficiency = (this.totalPoints / (this.totalGames * 3)) * 100;
   }
 
   private getMatchesForTeam(): Matches[] {
     return this.matches.filter((match) => match.homeTeamId === this.team.id && !match.inProgress);
   }
 
-  getTotalGamesPlayed() {
+  getTotalGames() {
     return this.getMatchesForTeam().length;
   }
 
-  getTotalWins() {
+  getTotalVictories() {
     return this.getMatchesForTeam()
       .filter((match) => match.awayTeamGoals !== null && match.homeTeamGoals > match.awayTeamGoals)
       .length;
@@ -52,16 +52,16 @@ export default class TeamStats {
 
   getTotalDraws() {
     return this.getMatchesForTeam()
-      .filter((match) =>
-        match.awayTeamGoals !== null && match.homeTeamGoals === match.awayTeamGoals)
+      .filter((match) => match
+        .awayTeamGoals !== null && match.homeTeamGoals === match.awayTeamGoals)
       .length;
   }
 
-  getGoalsFor() {
+  getgoalsFavor() {
     return this.getMatchesForTeam().reduce((total, match) => total + match.homeTeamGoals, 0);
   }
 
-  getGoalsAgainst() {
+  getgoalsOwn() {
     return this.getMatchesForTeam().reduce((total, match) => total + match.awayTeamGoals, 0);
   }
 }

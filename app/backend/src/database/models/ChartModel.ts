@@ -14,22 +14,22 @@ export default class LeaderBoard {
 
   public createBoard() {
     return this._teams.map((curTeam) => {
-      const teamStats = new TeamStats(curTeam, this._matches);
-      const { getTotalGamesPlayed,
-        getTotalWins, getTotalDraws,
-        getTotalLosses, getGoalsFor,
-        getGoalsAgainst, ...statistic } = teamStats;
+      const teamStatistics = new TeamStats(curTeam, this._matches);
+      const {
+        getTotalGames,
+        getTotalVictories,
+        getTotalLosses,
+        getTotalDraws,
+        getgoalsFavor,
+        getgoalsOwn,
+        ...statistic } = teamStatistics;
 
-      statistic.teamName = teamStats.team.teamName;
-      statistic.totalGamesPlayed = getTotalGamesPlayed.call(teamStats);
-      statistic.totalWins = getTotalWins.call(teamStats);
-      statistic.totalDraws = getTotalDraws.call(teamStats);
-      statistic.totalLosses = getTotalLosses.call(teamStats);
-      statistic.totalPoints = teamStats.totalPoints;
-      statistic.goalsFor = getGoalsFor.call(teamStats);
-      statistic.goalsAgainst = getGoalsAgainst.call(teamStats);
-      statistic.goalDifference = teamStats.goalDifference;
-      statistic.winPercentage = teamStats.winPercentage;
+      statistic.totalGames = getTotalGames.call(teamStatistics);
+      statistic.totalVictories = getTotalVictories.call(teamStatistics);
+      statistic.totalLosses = getTotalLosses.call(teamStatistics);
+      statistic.totalDraws = getTotalDraws.call(teamStatistics);
+      statistic.goalsFavor = getgoalsFavor.call(teamStatistics);
+      statistic.goalsOwn = getgoalsOwn.call(teamStatistics);
 
       return statistic;
     });
