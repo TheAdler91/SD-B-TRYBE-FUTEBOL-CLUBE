@@ -28,6 +28,12 @@ export interface IUpdate {
   awayTeamGoals: number,
 }
 
+export interface ITableItem {
+  totalPoints: number;
+  totalVictories: number;
+  goalsBalance: number;
+  goalsFavor: number;
+}
 export interface IAddMatch {
   homeTeamId: number,
   awayTeamId: number,

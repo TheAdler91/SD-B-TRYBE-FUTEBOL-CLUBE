@@ -9,6 +9,7 @@ const router = Router();
 const service = new LeaderboardService(Matches, Teams);
 const controller = new LeaderoardBController(service);
 
+router.get('/away', controller.getAwayTeamTable);
 router.get('/home', controller.getHomeTeamTable);
 
 export default router;

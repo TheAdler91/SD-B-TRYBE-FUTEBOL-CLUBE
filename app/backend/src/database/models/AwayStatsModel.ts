@@ -1,7 +1,7 @@
 import Matches from './MatchModel';
 import Teams from './TeamModel';
 
-export default class TeamStats {
+export default class AwayStats {
   name: string;
   totalGames: number;
   totalPoints: number;
@@ -24,14 +24,14 @@ export default class TeamStats {
     this.totalLosses = this.getTotalLosses();
     this.totalDraws = this.getTotalDraws();
     this.totalPoints = (this.totalVictories * 3) + this.totalDraws;
-    this.goalsFavor = this.getgoalsFavor();
-    this.goalsOwn = this.getgoalsOwn();
+    this.goalsFavor = this.getGoalsFavor();
+    this.goalsOwn = this.getGoalsOwn();
     this.goalsBalance = this.goalsFavor - this.goalsOwn;
     this.efficiency = (this.totalPoints / (this.totalGames * 3)) * 100;
   }
 
   private getMatchesForTeam(): Matches[] {
-    return this.matches.filter((match) => match.homeTeamId === this.team.id && !match.inProgress);
+    return this.matches.filter((match) => match.awayTeamId === this.team.id && !match.inProgress);
   }
 
   getTotalGames() {
@@ -40,28 +40,28 @@ export default class TeamStats {
 
   getTotalVictories() {
     return this.getMatchesForTeam()
-      .filter((match) => match.awayTeamGoals !== null && match.homeTeamGoals > match.awayTeamGoals)
+      .filter((match) => match.homeTeamGoals !== null && match.awayTeamGoals > match.homeTeamGoals)
       .length;
   }
 
   getTotalLosses() {
     return this.getMatchesForTeam()
-      .filter((match) => match.awayTeamGoals !== null && match.homeTeamGoals < match.awayTeamGoals)
+      .filter((match) => match.homeTeamGoals !== null && match.awayTeamGoals < match.homeTeamGoals)
       .length;
   }
 
   getTotalDraws() {
     return this.getMatchesForTeam()
       .filter((match) => match
-        .awayTeamGoals !== null && match.homeTeamGoals === match.awayTeamGoals)
+        .homeTeamGoals !== null && match.awayTeamGoals === match.homeTeamGoals)
       .length;
   }
 
-  getgoalsFavor() {
-    return this.getMatchesForTeam().reduce((total, match) => total + match.homeTeamGoals, 0);
+  getGoalsFavor() {
+    return this.getMatchesForTeam().reduce((total, match) => total + match.awayTeamGoals, 0);
   }
 
-  getgoalsOwn() {
-    return this.getMatchesForTeam().reduce((total, match) => total + match.awayTeamGoals, 0);
+  getGoalsOwn() {
+    return this.getMatchesForTeam().reduce((total, match) => total + match.homeTeamGoals, 0);
   }
 }
