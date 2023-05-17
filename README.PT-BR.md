@@ -24,10 +24,24 @@ Os seeds do banco de dados já foram providos em `./app/backend/src/database/see
 - HTML/CSS
 
 ## Como executar
-1. Clone o repositório: `git@github.com:TheAdler91/SD-B-TRYBE-FUTEBOL-CLUBE.git`
-2. Acesse o diretório do projeto: `cd project-trybe-futebol-clube`
-3. Instale as dependências: `npm install`
-4. Rode o Docker-compose: `docker-compose up -d`
+1. Clone o repositório:
+```
+ `git@github.com:TheAdler91/SD-B-TRYBE-FUTEBOL-CLUBE.git`
+ ``` 
+2. Acesse o diretório do projeto: 
+```
+`cd project-trybe-futebol-clube`
+```
+
+3. Instale as dependências:
+```
+ `npm install`
+ ```
+
+4. Rode o Docker-compose: 
+```
+`docker-compose up -d`
+```
 
 O site estará disponível em [http://localhost:3000](http://localhost:3000).
 
